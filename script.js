@@ -1,3 +1,15 @@
+window.onload = function()
+{
+	refreshTime();
+	refreshDayOrNight();
+	refreshDate();
+	refreshWeather();
+	
+	setInterval(refreshTime, 500);
+	setInterval(refreshDayOrNight, 60000);
+	setInterval(refreshDate, 500);
+	setInterval(refreshWeather, 900000);
+}
 // id=time
 function refreshTime() {
 	const timeDisplay = document.getElementById("time");
@@ -21,7 +33,20 @@ function refreshTime() {
     //     dateString += " AM";
     timeDisplay.textContent = dateString;
 }
-setInterval(refreshTime, 1);
+
+// id=day-or-night
+function refreshDayOrNight() {
+	const dayOrNightDisplay = document.getElementById("day-or-night");
+	const dayJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32.03072&longitude=35.884237&current=is_day&timezone=auto&past_days=0"));
+	if (dayJson.is_day) {
+		dayOrNightDisplay.textContent = "";
+		dayOrNightDisplay.style.color = "#f9e2af";
+	}
+	else {
+		dayOrNightDisplay.textContent = "";
+		dayOrNightDisplay.style.color = "#b4befe";
+	}
+}
 
 // id=date
 function refreshDate() {
@@ -57,4 +82,30 @@ function refreshDate() {
 	dateString += date.getFullYear();
 	dateDisplay.textContent = dateString;
 }
-setInterval(refreshDate, 1);
+
+function refreshWeather() {
+	const temperature = document.getElementById("temperature");
+	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32.03072&longitude=35.884236&minutely_15=temperature_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m&timezone=auto&forecast_days=1"));
+	console.log(weatherJson);
+	if (weatherJson.minutely_15.temperature_2m[0] >= 30) {
+		temperature.textContent = " ";
+		temperature.style.color = "#f38ba8";
+	}
+	else if (weatherJson.minutely_15.temperature_2m[0] <= 18) {
+		temperature.textContent = " ";
+		temperature.style.color = "#94e2d5";
+	}
+	else {
+		temperature.textContent = " ";
+		temperature.style.color = "#f5e0dc";
+	}
+	temperature.textContent += weatherJson.minutely_15.temperature_2m[0] + "C";
+}
+
+
+function get(url) {
+    var httpreq = new XMLHttpRequest();
+    httpreq.open("GET", url, false);
+    httpreq.send(null);
+    return httpreq.responseText;          
+}
