@@ -77,8 +77,8 @@ function refreshDate() {
 			break;
 	}
 	var dateString = dayNum + " ";
-	dateString += date.getDate() + "/";
-	dateString += date.getMonth() + "/";
+	dateString += date.getDate() + 1 + "/";
+	dateString += date.getMonth() + 1 + "/";
 	dateString += date.getFullYear();
 	dateDisplay.textContent = dateString;
 }
