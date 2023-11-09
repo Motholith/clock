@@ -97,7 +97,7 @@ function refreshWeather() {
 	}
 	else {
 		temperature.textContent = " ";
-		temperature.style.color = "#f5e0dc";
+		temperature.style.color = "#fab387";
 	}
 	temperature.textContent += weatherJson.minutely_15.temperature_2m[0] + "C";
 }
