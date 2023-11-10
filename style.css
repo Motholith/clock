@@ -33,3 +33,9 @@ body {
 	left: 100%;
 	transform: translate(-109%, -50%);
 }
+.left {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translate(9%, -50%);
+}

@@ -99,24 +99,24 @@ function rHijri() {
 }
 
 function rWeather() {
-	const temperature = document.getElementById("temperature");
 	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32&longitude=35.875&current=temperature_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min&timezone=auto&forecast_days=1"));
+	const temp = document.getElementById("temp");
 	console.log(weatherJson);
 	if (weatherJson.current.temperature_2m >= 30) {
-		temperature.textContent = " ";
-		temperature.style.color = "#f38ba8";
+		temp.textContent = " ";
+		temp.style.color = "#f38ba8";
 	}
 	else if (weatherJson.current.temperature_2m <= 18) {
-		temperature.textContent = " ";
-		temperature.style.color = "#94e2d5";
+		temp.textContent = " ";
+		temp.style.color = "#94e2d5";
 	}
 	else {
-		temperature.textContent = " ";
-		temperature.style.color = "#fab387";
+		temp.textContent = " ";
+		temp.style.color = "#fab387";
 	}
-	temperature.textContent += `${weatherJson.current.temperature_2m}C`;
+	temp.textContent += `${weatherJson.current.temperature_2m}C`;
 
-	const tempMin = document.getElementById("temperature-min");
+	const tempMin = document.getElementById("temp-min");
 	if (weatherJson.daily.temperature_2m_min[0] >= 30)
 		tempMin.style.color = "#f38ba8";
 	else if (weatherJson.daily.temperature_2m_min[0] <= 18)
@@ -125,7 +125,7 @@ function rWeather() {
 		tempMin.style.color = "#fab387";
 	tempMin.textContent = `${weatherJson.daily.temperature_2m_min[0]}C`;
 	
-	const tempMax = document.getElementById("temperature-max");
+	const tempMax = document.getElementById("temp-max");
 	if (weatherJson.daily.temperature_2m_max[0] >= 30)
 		tempMax.style.color = "#f38ba8";
 	else if (weatherJson.daily.temperature_2m_max[0] <= 18)
@@ -133,6 +133,40 @@ function rWeather() {
 	else
 		tempMax.style.color = "#fab387";
 	tempMax.textContent = `${weatherJson.daily.temperature_2m_max[0]}C`;
+
+	const feelsTemp = document.getElementById("feels-temp");
+	console.log(weatherJson);
+	if (weatherJson.current.apparent_temperature >= 30) {
+		feelsTemp.textContent = " ";
+		feelsTemp.style.color = "#f38ba8";
+	}
+	else if (weatherJson.current.apparent_temperature <= 18) {
+		feelsTemp.textContent = " ";
+		feelsTemp.style.color = "#94e2d5";
+	}
+	else {
+		feelsTemp.textContent = " ";
+		feelsTemp.style.color = "#fab387";
+	}
+	feelsTemp.textContent += `${weatherJson.current.apparent_temperature}C`;
+
+	const feelsTempMin = document.getElementById("feels-temp-min");
+	if (weatherJson.daily.apparent_temperature_min[0] >= 30)
+		feelsTempMin.style.color = "#f38ba8";
+	else if (weatherJson.daily.apparent_temperature_min[0] <= 18)
+		feelsTempMin.style.color = "#94e2d5";
+	else
+		feelsTempMin.style.color = "#fab387";
+	feelsTempMin.textContent = `${weatherJson.daily.apparent_temperature_min[0]}C`;
+	
+	const feelsTempMax = document.getElementById("feels-temp-max");
+	if (weatherJson.daily.apparent_temperature_max[0] >= 30)
+		feelsTempMax.style.color = "#f38ba8";
+	else if (weatherJson.daily.apparent_temperature_max[0] <= 18)
+		feelsTempMax.style.color = "#94e2d5";
+	else
+		feelsTempMax.style.color = "#fab387";
+	feelsTempMax.textContent = `${weatherJson.daily.apparent_temperature_max[0]}C`;
 }
 
 
