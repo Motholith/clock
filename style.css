@@ -1,5 +1,5 @@
 @font-face {
-	font-family: "JetBrains Mono Nerd Font Mono";
+	font-family: "JetBrains Mono";
 	src: url("JetBrainsMonoNerdFontMono-Regular.ttf");
 }
 
@@ -10,7 +10,7 @@ body {
     border: 0px;
     padding: 0%;
     font-size: 40px;
-    font-family: 'JetBrainsMono Nerd Font Mono';
+    font-family: 'JetBrains Mono';
 	text-align: center;
 	white-space: nowrap;
 }
