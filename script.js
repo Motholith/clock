@@ -74,10 +74,10 @@ function rDate() {
 			break;
 	}
 	let dateString = `${dayNum} `;
-	dateString += `${date.getDate() + 1}/`;
+	dateString += `${date.getDate()}/`;
 	dateString += `${date.getMonth() + 1}/`;
 	dateString += date.getFullYear();
-	dateDisplay.textContent = dateString;
+	dateDisplay.textContent = dateString.toLowerCase();
 }
 function rHijri() {
 	const hijriDisplay = document.getElementById("hijri");
@@ -91,22 +91,24 @@ function rHijri() {
 	};
 	const format = new Intl.DateTimeFormat("en-JO-u-ca-islamic", options);
 	const hijriParts = format.formatToParts(date);
-	let hijriString = `(${hijriParts[2].value} ${hijriParts[0].value} ${hijriParts[4].value})`;
-	hijriString = hijriString.replace('II', 'Ath-Thaani');
-	hijriString = hijriString.replace('I', 'Al-Awwal');
+	let hijriString = `(${hijriParts[2].value - 1} ${hijriParts[0].value} ${hijriParts[4].value})`;
+	hijriString = hijriString.replace('II', 'ath-thaani');
+	hijriString = hijriString.replace('I', 'al-awwal');
 	hijriString = hijriString.replace('AH', '');
-	hijriDisplay.textContent = hijriString;
+	hijriDisplay.textContent = hijriString.toLowerCase();
 }
 
 function rWeather() {
-	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32&longitude=35.875&current=temperature_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min&timezone=auto&forecast_days=1"));
+	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=31.9552&longitude=35.945&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max&timezone=auto&forecast_days=1"));
 	const temp = document.getElementById("temp");
 	console.log(weatherJson);
-	if (weatherJson.current.temperature_2m >= 30) {
+	let t = weatherJson.current.temperature_2m;
+	console.log(t);
+	if (t >= 30) {
 		temp.textContent = " ";
 		temp.style.color = "#f38ba8";
 	}
-	else if (weatherJson.current.temperature_2m <= 18) {
+	else if (t <= 18) {
 		temp.textContent = " ";
 		temp.style.color = "#94e2d5";
 	}
@@ -114,33 +116,36 @@ function rWeather() {
 		temp.textContent = " ";
 		temp.style.color = "#fab387";
 	}
-	temp.textContent += `${weatherJson.current.temperature_2m}C`;
+	temp.textContent += `${t}C`;
 
 	const tempMin = document.getElementById("temp-min");
-	if (weatherJson.daily.temperature_2m_min[0] >= 30)
+	t = weatherJson.daily.temperature_2m_min[0];
+	if (t >= 30)
 		tempMin.style.color = "#f38ba8";
-	else if (weatherJson.daily.temperature_2m_min[0] <= 18)
+	else if (t <= 18)
 		tempMin.style.color = "#94e2d5";
 	else
 		tempMin.style.color = "#fab387";
-	tempMin.textContent = `${weatherJson.daily.temperature_2m_min[0]}C`;
+	tempMin.textContent = `${t}C`;
 	
 	const tempMax = document.getElementById("temp-max");
-	if (weatherJson.daily.temperature_2m_max[0] >= 30)
+	t = weatherJson.daily.temperature_2m_max[0];
+	if (t >= 30)
 		tempMax.style.color = "#f38ba8";
 	else if (weatherJson.daily.temperature_2m_max[0] <= 18)
 		tempMax.style.color = "#94e2d5";
 	else
 		tempMax.style.color = "#fab387";
-	tempMax.textContent = `${weatherJson.daily.temperature_2m_max[0]}C`;
+	tempMax.textContent = `${t}C`;
 
 	const feelsTemp = document.getElementById("feels-temp");
 	console.log(weatherJson);
-	if (weatherJson.current.apparent_temperature >= 30) {
+	let fT = weatherJson.current.apparent_temperature;
+	if (fT >= 30) {
 		feelsTemp.textContent = " ";
 		feelsTemp.style.color = "#f38ba8";
 	}
-	else if (weatherJson.current.apparent_temperature <= 18) {
+	else if (fT <= 18) {
 		feelsTemp.textContent = " ";
 		feelsTemp.style.color = "#94e2d5";
 	}
@@ -148,25 +153,27 @@ function rWeather() {
 		feelsTemp.textContent = " ";
 		feelsTemp.style.color = "#fab387";
 	}
-	feelsTemp.textContent += `${weatherJson.current.apparent_temperature}C`;
+	feelsTemp.textContent += `${fT}C`;
 
 	const feelsTempMin = document.getElementById("feels-temp-min");
-	if (weatherJson.daily.apparent_temperature_min[0] >= 30)
+	fT = weatherJson.daily.apparent_temperature_min[0];
+	if (fT >= 30)
 		feelsTempMin.style.color = "#f38ba8";
-	else if (weatherJson.daily.apparent_temperature_min[0] <= 18)
+	else if (fT <= 18)
 		feelsTempMin.style.color = "#94e2d5";
 	else
 		feelsTempMin.style.color = "#fab387";
-	feelsTempMin.textContent = `${weatherJson.daily.apparent_temperature_min[0]}C`;
+	feelsTempMin.textContent = `${fT}C`;
 	
 	const feelsTempMax = document.getElementById("feels-temp-max");
-	if (weatherJson.daily.apparent_temperature_max[0] >= 30)
+	fT = weatherJson.daily.apparent_temperature_max[0];
+	if (fT >= 30)
 		feelsTempMax.style.color = "#f38ba8";
-	else if (weatherJson.daily.apparent_temperature_max[0] <= 18)
+	else if (fT <= 18)
 		feelsTempMax.style.color = "#94e2d5";
 	else
 		feelsTempMax.style.color = "#fab387";
-	feelsTempMax.textContent = `${weatherJson.daily.apparent_temperature_max[0]}C`;
+	feelsTempMax.textContent = `${fT}C`;
 }
 
 
