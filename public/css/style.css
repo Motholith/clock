@@ -1,0 +1,46 @@
+@font-face {
+	font-family: JetBrainsMono;
+	src: url("../fonts/JetBrainsMonoNerdFontMono-Regular.ttf") format("truetype");
+}
+
+body {
+    color: #cdd6f4;
+    background-color: #1e1e2e;
+    margin: 2%;
+    border: 0px;
+    padding: 0%;
+    font-size: 40px;
+    font-family: JetBrainsMono;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.top {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+.center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.bottom {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translate(-50%, -50%);
+}
+.right {
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	transform: translate(-109%, -50%);
+}
+.left {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translate(9%, -50%);
+}
