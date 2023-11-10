@@ -100,8 +100,53 @@ function rHijri() {
 	hijriDisplay.textContent = hijriString.toLowerCase();
 }
 
+const weatherList = [
+	"clear sky",
+	"mainly clear", "partly cloudy", "overcast",
+	"fog", "rime fog",
+	"light drizzle", "moderate drizzle", "dense drizzle",
+	"freezing light drizzle", "freezing dense drizzle",
+	"slight rain", "moderate rain", "heavy rain",
+	"freezing light rain", "freezing heavy rain",
+	"slight snowfall", "moderate snowfall", "heavy snowfall",
+	"snow grains",
+	"slight rain showers", "moderate rain showers", "violent rain showers",
+	"slight snow showers", "heavy snow showers",
+	"thunderstorm",
+	"thunderstorm with slight hail", "thunderstorm with heavy hail",
+]
+const weatherGlyphs = [
+	"󰖙",
+	"󰖙", "", "",
+	"󰖑", "󰖑",
+	"", "", "",
+	"", "",
+	"", "", "",
+	"", "",
+	"", "", "",
+	"",
+	"", "", "",
+	"", "",
+	"",
+	"", "",
+];
+const wmoToWeatherArray = {
+	0: 0,
+	1: 1, 2: 2, 3: 3,
+	45: 4, 48: 5,
+	51: 6, 53: 7, 55: 8,
+	56: 9, 57: 10,
+	61: 11, 63: 12, 65: 13,
+	66: 14, 67: 15,
+	71: 16, 73: 17, 75: 18,
+	77: 19,
+	80: 20, 81: 21, 82: 22,
+	85: 23, 86: 24,
+	95: 25,
+	96: 26, 99: 27,
+}
 function rWeather() {
-	const weatherJson = JSON.parse(get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max&timezone=auto&forecast_days=1`));
+	const weatherJson = JSON.parse(get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,weather_code&timezone=auto&forecast_days=1`));
 	const temp = document.getElementById("temp");
 	console.log(weatherJson);
 	let t = weatherJson.current.temperature_2m;
@@ -176,6 +221,12 @@ function rWeather() {
 	else
 		feelsTempMax.style.color = "#fab387";
 	feelsTempMax.textContent = `${fT}C`;
+
+	const weather = document.getElementById("weather");
+	const weatherGlyph = document.getElementById("weather-glyph");
+	const weatherCode = weatherJson.current.weather_code;
+	weather.textContent = weatherList[wmoToWeatherArray[weatherCode]];
+	weatherGlyph.textContent = weatherGlyphs[wmoToWeatherArray[weatherCode]];
 }
 
 
