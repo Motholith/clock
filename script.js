@@ -8,7 +8,7 @@ window.onload = function()
 	setInterval(refreshTime, 500);
 	setInterval(refreshDayOrNight, 60000);
 	setInterval(refreshDate, 500);
-	setInterval(refreshWeather, 900000);
+	setInterval(refreshWeather, 300000);
 }
 // id=time
 function refreshTime() {
