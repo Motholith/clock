@@ -130,6 +130,21 @@ const weatherGlyphs = [
 	"",
 	"", "",
 ];
+const weatherGlyphColors = [
+	"#f9e2af",
+	"#f9e2af", "#b4befe", "#b4befe",
+	"#89b4fa", "#89b4fa",
+	"#74c7ec", "#74c7ec", "#74c7ec",
+	"#74c7ec", "#74c7ec",
+	"#74c7ec", "#74c7ec", "#74c7ec",
+	"#74c7ec", "#74c7ec",
+	"#edf6ff", "#edf6ff", "#edf6ff",
+	"#edf6ff",
+	"#74c7ec", "#74c7ec", "#74c7ec",
+	"#edf6ff", "#edf6ff",
+	"#f38ba8",
+	"#f38ba8", "#f38ba8",
+]
 const wmoToWeatherArray = {
 	0: 0,
 	1: 1, 2: 2, 3: 3,
@@ -227,6 +242,7 @@ function rWeather() {
 	const weatherCode = weatherJson.current.weather_code;
 	weather.textContent = weatherList[wmoToWeatherArray[weatherCode]];
 	weatherGlyph.textContent = weatherGlyphs[wmoToWeatherArray[weatherCode]];
+	weatherGlyph.style.color = weatherGlyphColors[wmoToWeatherArray[weatherCode]];
 }
 
 
