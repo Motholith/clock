@@ -26,3 +26,9 @@ body {
 	bottom: 0;
 	transform: translate(-50%, -50%);
 }
+.right {
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	transform: translate(-115%, -50%);
+}

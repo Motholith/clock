@@ -1,17 +1,19 @@
 window.onload = function()
 {
-	refreshTime();
-	refreshDayOrNight();
-	refreshDate();
-	refreshWeather();
+	rTime();
+	rDayOrNight();
+	rDate();
+	rHijri();
+	rWeather();
 	
-	setInterval(refreshTime, 500);
-	setInterval(refreshDayOrNight, 60000);
-	setInterval(refreshDate, 500);
-	setInterval(refreshWeather, 300000);
+	setInterval(rTime, 500);
+	setInterval(rDayOrNight, 60000);
+	setInterval(rDate, 500);
+	setInterval(rHijri, 500);
+	setInterval(rWeather, 300000);
 }
 // id=time
-function refreshTime() {
+function rTime() {
 	const timeDisplay = document.getElementById("time");
     const date = new Date();
     var dateString = parseInt(date.getHours()) // % 12;
@@ -35,10 +37,11 @@ function refreshTime() {
 }
 
 // id=day-or-night
-function refreshDayOrNight() {
+function rDayOrNight() {
 	const dayOrNightDisplay = document.getElementById("day-or-night");
 	const dayJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32.03072&longitude=35.884237&current=is_day&timezone=auto&past_days=0"));
-	if (dayJson.is_day) {
+	console.log(dayJson);
+	if (dayJson.current.is_day) {
 		dayOrNightDisplay.textContent = "";
 		dayOrNightDisplay.style.color = "#f9e2af";
 	}
@@ -49,7 +52,7 @@ function refreshDayOrNight() {
 }
 
 // id=date
-function refreshDate() {
+function rDate() {
 	const dateDisplay = document.getElementById("date");
     const date = new Date();
 	var dayNum = parseInt(date.getDay());
@@ -82,16 +85,34 @@ function refreshDate() {
 	dateString += date.getFullYear();
 	dateDisplay.textContent = dateString;
 }
+function rHijri() {
+	const hijriDisplay = document.getElementById("hijri");
+	const date = new Date();
 
-function refreshWeather() {
+	let options = {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+		timeZone: "Asia/Amman",
+	};
+	var format = new Intl.DateTimeFormat("en-JO-u-ca-islamic", options);
+	var hijriParts = format.formatToParts(date);
+	hijriString = "(" + hijriParts[2].value + " " + hijriParts[0].value + " " + hijriParts[4].value + ")";
+	hijriString = hijriString.replace('II', 'Ath-Thaani');
+	hijriString = hijriString.replace('I', 'Al-Awwal');
+	hijriString = hijriString.replace('AH', '');
+	hijriDisplay.textContent = hijriString;
+}
+
+function rWeather() {
 	const temperature = document.getElementById("temperature");
-	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32.03072&longitude=35.884236&minutely_15=temperature_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m&timezone=auto&forecast_days=1"));
+	const weatherJson = JSON.parse(get("https://api.open-meteo.com/v1/forecast?latitude=32&longitude=35.875&current=temperature_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min&timezone=auto&forecast_days=1"));
 	console.log(weatherJson);
-	if (weatherJson.minutely_15.temperature_2m[0] >= 30) {
+	if (weatherJson.current.temperature_2m >= 30) {
 		temperature.textContent = " ";
 		temperature.style.color = "#f38ba8";
 	}
-	else if (weatherJson.minutely_15.temperature_2m[0] <= 18) {
+	else if (weatherJson.current.temperature_2m <= 18) {
 		temperature.textContent = " ";
 		temperature.style.color = "#94e2d5";
 	}
@@ -99,7 +120,7 @@ function refreshWeather() {
 		temperature.textContent = " ";
 		temperature.style.color = "#fab387";
 	}
-	temperature.textContent += weatherJson.minutely_15.temperature_2m[0] + "C";
+	temperature.textContent += weatherJson.current.temperature_2m + "C";
 }
 
 
