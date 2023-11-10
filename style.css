@@ -1,3 +1,8 @@
+@font-face {
+	font-family: "JetBrains Mono Nerd Font Mono";
+	src: url("JetBrainsMonoNerdFontMono-Regular.ttf");
+}
+
 body {
     color: #cdd6f4;
     background-color: #1e1e2e;
