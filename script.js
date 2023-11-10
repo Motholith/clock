@@ -16,23 +16,17 @@ window.onload = function()
 function rTime() {
 	const timeDisplay = document.getElementById("time");
     const date = new Date();
-    var dateString = parseInt(date.getHours()) // % 12;
-    // if (dateString == "0")
-    //     dateString = "12"
+    let dateString = parseInt(date.getHours());
     dateString += ":";
     if (date.getMinutes() < 10)
-        dateString += "0" + date.getMinutes();
+        dateString += `0${date.getMinutes()}`;
     else
         dateString += date.getMinutes();
     dateString += ":";
     if (date.getSeconds() < 10)
-        dateString += "0" + date.getSeconds();
+        dateString += `0${date.getSeconds()}`;
     else
         dateString += date.getSeconds();
-    // if (date.getHours() >= 12)
-    //     dateString += " PM";
-    // else
-    //     dateString += " AM";
     timeDisplay.textContent = dateString;
 }
 
@@ -55,7 +49,7 @@ function rDayOrNight() {
 function rDate() {
 	const dateDisplay = document.getElementById("date");
     const date = new Date();
-	var dayNum = parseInt(date.getDay());
+	let dayNum = parseInt(date.getDay());
 	switch (dayNum) {
 		case 0:
 			dayNum = "Sunday";
@@ -79,9 +73,9 @@ function rDate() {
 			dayNum = "Saturday";
 			break;
 	}
-	var dateString = dayNum + " ";
-	dateString += date.getDate() + 1 + "/";
-	dateString += date.getMonth() + 1 + "/";
+	let dateString = `${dayNum} `;
+	dateString += `${date.getDate() + 1}/`;
+	dateString += `${date.getMonth() + 1}/`;
 	dateString += date.getFullYear();
 	dateDisplay.textContent = dateString;
 }
@@ -89,15 +83,15 @@ function rHijri() {
 	const hijriDisplay = document.getElementById("hijri");
 	const date = new Date();
 
-	let options = {
+	const options = {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
 		timeZone: "Asia/Amman",
 	};
-	var format = new Intl.DateTimeFormat("en-JO-u-ca-islamic", options);
-	var hijriParts = format.formatToParts(date);
-	hijriString = "(" + hijriParts[2].value + " " + hijriParts[0].value + " " + hijriParts[4].value + ")";
+	const format = new Intl.DateTimeFormat("en-JO-u-ca-islamic", options);
+	const hijriParts = format.formatToParts(date);
+	let hijriString = `(${hijriParts[2].value} ${hijriParts[0].value} ${hijriParts[4].value})`;
 	hijriString = hijriString.replace('II', 'Ath-Thaani');
 	hijriString = hijriString.replace('I', 'Al-Awwal');
 	hijriString = hijriString.replace('AH', '');
@@ -120,12 +114,30 @@ function rWeather() {
 		temperature.textContent = " ";
 		temperature.style.color = "#fab387";
 	}
-	temperature.textContent += weatherJson.current.temperature_2m + "C";
+	temperature.textContent += `${weatherJson.current.temperature_2m}C`;
+
+	const tempMin = document.getElementById("temperature-min");
+	if (weatherJson.daily.temperature_2m_min[0] >= 30)
+		tempMin.style.color = "#f38ba8";
+	else if (weatherJson.daily.temperature_2m_min[0] <= 18)
+		tempMin.style.color = "#94e2d5";
+	else
+		tempMin.style.color = "#fab387";
+	tempMin.textContent = `${weatherJson.daily.temperature_2m_min[0]}C`;
+	
+	const tempMax = document.getElementById("temperature-max");
+	if (weatherJson.daily.temperature_2m_max[0] >= 30)
+		tempMax.style.color = "#f38ba8";
+	else if (weatherJson.daily.temperature_2m_max[0] <= 18)
+		tempMax.style.color = "#94e2d5";
+	else
+		tempMax.style.color = "#fab387";
+	tempMax.textContent = `${weatherJson.daily.temperature_2m_max[0]}C`;
 }
 
 
 function get(url) {
-    var httpreq = new XMLHttpRequest();
+	const httpreq = new XMLHttpRequest();
     httpreq.open("GET", url, false);
     httpreq.send(null);
     return httpreq.responseText;          
