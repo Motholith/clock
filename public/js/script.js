@@ -1,5 +1,8 @@
+const latitude = 32.0360932
+const longitude = 35.8844916
 window.onload = function()
 {
+	setInterval(rDate, 500);
 	rTime();
 	rDayOrNight();
 	rDate();
@@ -12,8 +15,6 @@ window.onload = function()
 	setInterval(rHijri, 500);
 	setInterval(rWeather, 300000);
 }
-let latitude = 32.027848
-let longitude = 35.8825037
 // id=time
 function rTime() {
 	const timeDisplay = document.getElementById("time");
@@ -160,6 +161,10 @@ const wmoToWeatherArray = {
 	95: 25,
 	96: 26, 99: 27,
 }
+const windGlyphs = [
+	"", "", "", "",
+	"", "", "", "",
+]
 function rWeather() {
 	const weatherJson = JSON.parse(get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,weather_code&timezone=auto&forecast_days=1`));
 	const temp = document.getElementById("temp");
@@ -243,6 +248,15 @@ function rWeather() {
 	weather.textContent = weatherList[wmoToWeatherArray[weatherCode]];
 	weatherGlyph.textContent = weatherGlyphs[wmoToWeatherArray[weatherCode]];
 	weatherGlyph.style.color = weatherGlyphColors[wmoToWeatherArray[weatherCode]];
+	weather.style.color = weatherGlyphColors[wmoToWeatherArray[weatherCode]];
+
+	const windSpeed = document.getElementById("wind-speed");
+	const windDirection = document.getElementById("wind-direction");
+	windSpeed.textContent = `󰖝 ${weatherJson.current.wind_speed_10m} ${weatherJson.current_units.wind_speed_10m}`;
+	windDirection.textContent = windGlyphs[Math.round(((weatherJson.current.wind_direction_10m + 22.5) % 360) / 45)];
+
+	const humidity = document.getElementById("humidity");
+	humidity.textContent = ` ${weatherJson.current.relative_humidity_2m}%`;
 }
 
 
