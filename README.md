@@ -1,3 +1,4 @@
+![preview](https://github.com/Captain-Ravioli/clock/assets/48518572/94412e8d-7763-4284-97f5-675e90526f4d)
 # clock - a kiosk display for a bunch of stuff
 ## requirements
 - npm
