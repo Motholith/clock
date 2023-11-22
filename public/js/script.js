@@ -96,8 +96,6 @@ function rHijri() {
 	const format = new Intl.DateTimeFormat("en-JO-u-ca-islamic", options);
 	const hijriParts = format.formatToParts(date);
 	let hijriString = `(${hijriParts[2].value} ${hijriParts[0].value} ${hijriParts[4].value})`;
-	hijriString = hijriString.replace('II', 'ath-thaani');
-	hijriString = hijriString.replace('I', 'al-awwal');
 	hijriString = hijriString.replace('AH', '');
 	hijriDisplay.textContent = hijriString.toLowerCase();
 }
