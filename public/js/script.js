@@ -85,7 +85,7 @@ function rDate() {
 function rHijri() {
 	const hijriDisplay = document.getElementById("hijri");
 	const date = new Date();
-	date.setTime(date.getTime() - 24*60*60*1000);
+	date.setTime(date.getTime());
 
 	const options = {
 		year: "numeric",
