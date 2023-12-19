@@ -1,7 +1,7 @@
 // imports
 const express = require('express')
 const app = express()
-const PORT = 8001
+const PORT = 8000
 
 // static files
 app.use(express.static('public'))
